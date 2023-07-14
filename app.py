@@ -47,11 +47,8 @@ class manCert(Resource):
             "hobbies": ["lecture", "voyages", "natation"]
         }
 
-        # Convertit le dictionnaire en fichier JSON
-        json_data = json.dumps(data)
-
-        # Retourne la chaîne JSON résultante
-        return json_data
+        
+        return data
 
     def post(self):
         args = self.parser.parse_args()
