@@ -54,10 +54,16 @@ class manCert(Resource):
         args = self.parser.parse_args()
         arg1 = args['csr']
         certificat=mcsr.signCSR(arg1)
+        print(certificat)
+
+        data = {
+            "certificat": certificat,
+            
+        }
         
         # Logique pour créer un nouvel utilisateur
         #return {'user_id': param, 'name': 'John Doe'}
-        return certificat
+        return data
 api.add_resource(manCert, '/csr', '/csr/<string:csr>')
 
 
