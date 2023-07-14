@@ -3,6 +3,7 @@ import gestionDB as db
 from flask_restful import Api
 from flask_restful import Resource,reqparse
 import gestion_cert.sign_csr as mcsr
+import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -37,8 +38,20 @@ class manCert(Resource):
         super(manCert, self).__init__()
 
     def get(self):
-        contacts = db.lire_contacts()
-        return contacts
+        
+        # Crée un dictionnaire Python
+        data = {
+            "nom": "John",
+            "age": 30,
+            "marié": True,
+            "hobbies": ["lecture", "voyages", "natation"]
+        }
+
+        # Convertit le dictionnaire en fichier JSON
+        json_data = json.dumps(data)
+
+        # Retourne la chaîne JSON résultante
+        return json_data
 
     def post(self):
         args = self.parser.parse_args()
