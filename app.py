@@ -34,7 +34,11 @@ class manCert(Resource):
     
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('csr', type=str, required=True)
+        self.parser.add_argument('csr', type=str)
+        self.parser.add_argument('nom', type=str)
+        self.parser.add_argument('prenom', type=str)
+        self.parser.add_argument('cert_ed25519', type=str)
+        self.parser.add_argument('cert_eccp256', type=str)
         super(manCert, self).__init__()
 
     def get(self):
@@ -60,6 +64,22 @@ class manCert(Resource):
             "certificat": certificat,
             
         }
+        
+        # Logique pour créer un nouvel utilisateur
+        #return {'user_id': param, 'name': 'John Doe'}
+        return data
+    
+    def put(self):
+        args = self.parser.parse_args()
+        nom = args['nom']
+        prenom = args['prenom']
+        cert_ed25519 = args['cert_ed25519']
+        cert_eccp256 = args['cert_eccp256']
+        if db.ajouter_contact(nom,prenom,cert_ed25519,cert_eccp256):
+            data = {
+                "ret": "contact ajouté avec succes",
+                
+            }
         
         # Logique pour créer un nouvel utilisateur
         #return {'user_id': param, 'name': 'John Doe'}

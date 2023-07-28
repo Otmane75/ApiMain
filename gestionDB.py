@@ -18,6 +18,7 @@ class Contact(Base):
     nom = Column(String)
     prenom = Column(String)
     certificat_num = Column(String)
+    certificat_ecc = Column(String)
 
 
 # Création de la table "contact" dans la base de données
@@ -26,19 +27,24 @@ Base.metadata.create_all(engine)
 # Fonctions pour ajouter, modifier et supprimer un contact
 
 
-def ajouter_contact(nom, prenom, certificat_num):
-    contact = Contact(nom=nom, prenom=prenom, certificat_num=certificat_num)
+def ajouter_contact(nom, prenom, certificat_num,certificat_ecc):
+    engine = create_engine('sqlite:///contacts.db', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    contact = Contact(nom=nom, prenom=prenom, certificat_num=certificat_num,certificat_ecc=certificat_ecc)
     session.add(contact)
     session.commit()
     print("Contact ajouté avec succès.")
+    return True
 
 
-def modifier_contact(contact_id, nom, prenom, certificat_num):
+def modifier_contact(contact_id, nom, prenom, certificat_num,certificat_ecc):
     contact = session.query(Contact).get(contact_id)
     if contact:
         contact.nom = nom
         contact.prenom = prenom
         contact.certificat_num = certificat_num
+        contact.certificat_ecc=certificat_ecc
         session.commit()
         print("Contact modifié avec succès.")
     else:
@@ -60,7 +66,7 @@ def lire_certificat(contact_id):
     Session = sessionmaker(bind=engine)
     session = Session()
     contact = session.query(Contact).get(contact_id)
-    element = str(contact.id)+'|'+contact.nom+'|'+contact.prenom+'|'+contact.certificat_num
+    element = str(contact.id)+'|'+contact.nom+'|'+contact.prenom+'|'+contact.certificat_num+'|'+contact.certificat_ecc
     return element
     
         
@@ -126,6 +132,8 @@ MtVLEsdfrMHWZwAGVF2zLayeyh6DUKx0lNuOUBfD50x8Uo3q+Exr+aufO0Oh/RBX
 yXjhhQj6oJtyvrdE8usrUuDlcCWxsTU3goasGmS2sbtA8dvmBFVONzUZSUwikf/8
 /kmj+jq6NCM/HxDqu8+h/c3S/nhh52JoFT8kwJQKqcbVDLwWyAnv8Yp2EGnxwrrx
 +CX2lLVHdbccqN/TuyggDX3mM4xoqbkKA1nc04wwFUxgOp1sUGzzkqfoQ/fLcW0=
+-----END CERTIFICATE-----""", """-----BEGIN CERTIFICATE-----
+cert ecc 1
 -----END CERTIFICATE-----""")
 ajouter_contact("asm5", "md5", """-----BEGIN CERTIFICATE-----
 MIID6TCCAtGgAwIBAgIURWy5aeNYi7XKPshgsXwOkX6pvvgwDQYJKoZIhvcNAQEL
@@ -149,6 +157,8 @@ SD7sU3CXe5Y2y7MfDGuZgB1PvCGbOhq5CgsiSCp/HHdIvtoaA1Qo7oa7udFuxuB3
 mb3cEC4OfAQrNrKVLetnkMsKDTHJ4MUg/20G5EIXXHSdEkpnb1uiDF97xdNucT5b
 m9+zUjBhtGgiXnUrXBbu6B7BoAHtBvZNoAfTKHkJ7UI2TLSPanGD25hAp9D72Ua+
 KpDGEvy70v4+jrtkOclUUGdGcgutBIAbL2me8eH1M5hr+pVLT3RYJFPRNjRG
+-----END CERTIFICATE-----""", """-----BEGIN CERTIFICATE-----
+cert ecc
 -----END CERTIFICATE-----""")'''
 # lire_certificat(1)
 # print(lire_contacts())
