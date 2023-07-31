@@ -1,15 +1,28 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, MetaData, Table
+#from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+# Remplacez "utilisateur", "mot_de_passe", "nom_de_la_base_de_donnees" et "hote" par les valeurs appropriées
+# (par exemple, "postgres", "mdp_postgres", "ma_base_de_donnees" et "localhost")
+
+# Chaîne de connexion à PostgreSQL
+#db_url = f"postgresql://{db_user}:{db_password}@{db_host}/{db_name}"
+
+db_url = f"postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+
+# Créez le moteur SQLAlchemy
+engine = create_engine(db_url)
 # Création de la base de données SQLite
-engine = create_engine('sqlite:///contacts.db', echo=True)
+
+#engine = create_engine('sqlite:///contacts.db', echo=True)
 Session = sessionmaker(bind=engine)
 session = Session()
 
 Base = declarative_base()
 
 # Définition de la classe Contact pour mapper la table "contact"
+
 
 
 class Contact(Base):
@@ -28,7 +41,8 @@ Base.metadata.create_all(engine)
 
 
 def ajouter_contact(nom, prenom, certificat_num,certificat_ecc):
-    engine = create_engine('sqlite:///contacts.db', echo=True)
+    db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+    engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
     contact = Contact(nom=nom, prenom=prenom, certificat_num=certificat_num,certificat_ecc=certificat_ecc)
@@ -62,7 +76,8 @@ def supprimer_contact(contact_id):
 
 
 def lire_certificat(contact_id):
-    engine = create_engine('sqlite:///contacts.db', echo=True)
+    db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+    engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
     contact = session.query(Contact).get(contact_id)
@@ -91,7 +106,8 @@ def lire_certificat(contact_id):
         print("Contact introuvable.")
 '''
 def lire_contacts():
-    engine = create_engine('sqlite:///contacts.db', echo=True)
+    db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+    engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
     contacts = session.query(Contact).all()
