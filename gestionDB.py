@@ -34,6 +34,7 @@ def ajouter_contact(nom, prenom, certificat_num,certificat_ecc):
     contact = Contact(nom=nom, prenom=prenom, certificat_num=certificat_num,certificat_ecc=certificat_ecc)
     session.add(contact)
     session.commit()
+    session.close()
     print("Contact ajouté avec succès.")
     return True
 
