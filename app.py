@@ -88,6 +88,26 @@ api.add_resource(manCert, '/csr', '/csr/<string:csr>')
 
 
 
+class operations(Resource):
+    
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('operations', type=list)
+        super(operations, self).__init__()
+
+    def get(self):
+        operations=db.lire_operations()    
+        return operations
+
+    def post(self):
+        args = self.parser.parse_args()
+        operations_list = args['operations']
+        
+        for oper in operations_list:
+            db.ajouter_operation(oper[0],oper[1], oper[2],oper[3],oper[4])
+        return True
+api.add_resource(operations, '/operations', '/operations/<string:csr>')
+
 '''
 @app.route('/')
 def hello():

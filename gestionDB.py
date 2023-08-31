@@ -34,11 +34,43 @@ class Contact(Base):
     certificat_ecc = Column(String)
 
 
+class Historique(Base):
+    __tablename__ = 'historique' 
+    id = Column(Integer, primary_key=True)
+    emetteur = Column(String)
+    destinataire = Column(String)
+    operation = Column(String)
+    date = Column(String)
+    commited = Column(Integer)    
+
+
 # Création de la table "contact" dans la base de données
 Base.metadata.create_all(engine)
 
 # Fonctions pour ajouter, modifier et supprimer un contact
+def ajouter_operation(id,emetteur, destinataire,operation,date):
+    engine = create_engine('sqlite:///login.db', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    operation = Historique(id=id,emetteur=emetteur, destinataire=destinataire,operation=operation,date=date,commited=1)
+    session.add(operation)
+    session.commit()
 
+
+def lire_operations():
+    engine = create_engine('sqlite:///login.db', echo=True)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    operations=session.query(Historique).all()
+    if operations:
+        result=[]
+        for oper in operations:
+            
+            elem=[oper.id,oper.emetteur,oper.destinataire,oper.operation,oper.date,oper.commited]
+            result.append(elem)
+        return result
+    else :
+        return "Aucune operations trouvée"
 
 def ajouter_contact(nom, prenom, certificat_num,certificat_ecc):
     db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
