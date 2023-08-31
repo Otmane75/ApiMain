@@ -49,7 +49,8 @@ Base.metadata.create_all(engine)
 
 # Fonctions pour ajouter, modifier et supprimer un contact
 def ajouter_operation(id,emetteur, destinataire,operation,date):
-    engine = create_engine('sqlite:///login.db', echo=True)
+    db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+    engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
     operation = Historique(id=id,emetteur=emetteur, destinataire=destinataire,operation=operation,date=date,commited=1)
@@ -58,7 +59,8 @@ def ajouter_operation(id,emetteur, destinataire,operation,date):
 
 
 def lire_operations():
-    engine = create_engine('sqlite:///login.db', echo=True)
+    db_url = "postgresql://dbpostgre_k2mh_user:f7KuOrLLKjpxRQErnFbj1Tc9MRkGK7IJ@dpg-cj40jdmnqql8v0cr6vl0-a.frankfurt-postgres.render.com/dbpostgre_k2mh"
+    engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
     operations=session.query(Historique).all()
