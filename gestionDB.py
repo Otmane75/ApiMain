@@ -53,6 +53,8 @@ def ajouter_operation(emetteur, destinataire,operation,date):
     engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()
+    print("data info")
+    print(emetteur)
     operation = Historique(emetteur=emetteur, destinataire=destinataire,operation=operation,date=date,commited=1)
     session.add(operation)
     session.commit()
