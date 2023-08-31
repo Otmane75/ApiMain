@@ -105,7 +105,7 @@ class operations(Resource):
         
         for oper in operations_list:
             db.ajouter_operation(oper[1], oper[2],oper[3],oper[4])
-        return True
+        return operations_list
 api.add_resource(operations, '/operations', '/operations/<string:csr>')
 
 '''
