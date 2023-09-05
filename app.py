@@ -112,12 +112,12 @@ api.add_resource(operations, '/operations', '/operations/<string:csr>')
 
 pdf_files = []
 class Verification(Resource):
-    '''
+    
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('operations', type=list, location='json')
+        self.parser.add_argument('signataire', type=int, location='json')
         super(Verification, self).__init__()
-'''
+
     def get(self):
         html = render_template('index.html')
         response = make_response(html)
@@ -126,6 +126,8 @@ class Verification(Resource):
 
     def post(self):
         pdf_file = request.files.get('pdf_file')
+        args = self.parser.parse_args()
+        signataire = args['signataire']
 
         if pdf_file is None:
             return {'message': 'Aucun fichier PDF soumis'}, 400
@@ -147,7 +149,7 @@ class Verification(Resource):
         
         pdf_files.append(pdf_file.filename)  # Ajoutez le nom du fichier à la liste
 
-        return {'message': 'Fichier PDF reçu avec succes','signature':reponse}, 201
+        return {'message': 'Fichier PDF reçu avec succes','signature':reponse,'signataire':signataire}, 201
     
 
 api.add_resource(Verification, '/verify', '/verify/')

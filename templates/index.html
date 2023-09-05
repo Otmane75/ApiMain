@@ -3,11 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Upload PDF</title>
+    <title>Vérification de Signature</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 
 <body>
-    <h1>Upload PDF</h1>
+    <h1>Vérification de signature du PDF</h1>
     <form action="/verify" method="POST" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf">
         <button type="submit">Uploader le PDF</button>
