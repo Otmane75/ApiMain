@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask,render_template,request,make_response
 import gestionDB as db
 from flask_restful import Api
 from flask_restful import Resource,reqparse
 import gestion_cert.sign_csr as mcsr
 import json
+from io import BytesIO
+import signature.back as back
 
 app = Flask(__name__)
 api = Api(app)
@@ -107,6 +109,48 @@ class operations(Resource):
             db.ajouter_operation(oper[1], oper[2],oper[3],oper[4])
         return operations_list
 api.add_resource(operations, '/operations', '/operations/<string:csr>')
+
+pdf_files = []
+class Verification(Resource):
+    '''
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        self.parser.add_argument('operations', type=list, location='json')
+        super(Verification, self).__init__()
+'''
+    def get(self):
+        html = render_template('index.html')
+        response = make_response(html)
+        response.headers['Content-Type'] = 'text/html'
+        return response
+
+    def post(self):
+        pdf_file = request.files.get('pdf_file')
+
+        if pdf_file is None:
+            return {'message': 'Aucun fichier PDF soumis'}, 400
+
+        if not pdf_file.filename.endswith('.pdf'):
+            return {'message': 'Le fichier doit avoir une extension .pdf'}, 400
+
+        # Traitez le fichier PDF ici (par exemple, vous pouvez le sauvegarder sur le serveur)
+        pdf_file_content = pdf_file.read() # Lire le contenu en mode binaire
+
+        #pdf = BytesIO(pdf_file_content)
+        #pdf_file.save('test.pdf')
+        #print(pdf)
+
+        #pdf_stream = BytesIO(pdf_file.read())
+        #print(pdf_file_content)
+
+        back.verifier_signature(pdf_file_content)
+        
+        pdf_files.append(pdf_file.filename)  # Ajoutez le nom du fichier à la liste
+
+        return {'message': 'Fichier PDF reçu avec succes'}, 201
+    
+
+api.add_resource(Verification, '/verify', '/verify/')
 
 '''
 @app.route('/')
