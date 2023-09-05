@@ -40,9 +40,10 @@ def verify_signature(signature,challenge):
     try:
         public_key.verify(signature, message)
         print("La signature est valide.")
-        return True
+        return "La signature est valide."
     except InvalidSignature:
         print("La signature est invalide.")
+        return "La signature est invalide."
 
 
 

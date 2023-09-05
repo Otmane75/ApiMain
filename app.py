@@ -143,11 +143,11 @@ class Verification(Resource):
         #pdf_stream = BytesIO(pdf_file.read())
         #print(pdf_file_content)
 
-        back.verifier_signature(pdf_file_content)
+        reponse=back.verifier_signature(pdf_file_content)
         
         pdf_files.append(pdf_file.filename)  # Ajoutez le nom du fichier à la liste
 
-        return {'message': 'Fichier PDF reçu avec succes'}, 201
+        return {'message': 'Fichier PDF reçu avec succes','signature':reponse}, 201
     
 
 api.add_resource(Verification, '/verify', '/verify/')

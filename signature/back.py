@@ -8,5 +8,6 @@ def verifier_signature(fichier_verif_sig):
     hash = SIG.sha512_for_pdf("signature/output.pdf")
     print(signature[1].decode('ISO-8859-1'))
     print(hash)
-    SIG.verify_signature(signature[1].decode('ISO-8859-1'),hash)
+    reponse=SIG.verify_signature(signature[1].decode('ISO-8859-1'),hash)
+    return reponse
 
