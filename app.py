@@ -126,8 +126,9 @@ class Verification(Resource):
 
     def post(self):
         pdf_file = request.files.get('pdf_file')
-        args = self.parser.parse_args()
-        signataire = args['signataire']
+        #args = self.parser.parse_args()
+        #signataire = args['signataire']
+        signataire = request.form.get('signataire')
 
         if pdf_file is None:
             return {'message': 'Aucun fichier PDF soumis'}, 400
