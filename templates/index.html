@@ -11,7 +11,35 @@
     <form action="/verify" method="POST" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf">
         <button type="submit">Uploader le PDF</button>
+        <label for="signataire">Signataire:</label>
+        <select class="form-control" id="signataire">
+        </select>
     </form>
 </body>
+<script>
+    function fillSelectOptions(selectorId, options) {
+        var select = document.getElementById(selectorId);
+
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+
+        options.forEach(option => {
+            var opt = document.createElement('option');
+            opt.value = option.id;
+            opt.textContent = option.nom + " " + option.prenom;
+            select.appendChild(opt);
+        });
+    }
+
+    fetch("/contacts")
+        .then(response => response.json())
+        .then(data => {
+
+            fillSelectOptions('signataire', data);
+
+        })
+        .catch(error => console.error('Erreur:', error));
+</script>
 
 </html>
